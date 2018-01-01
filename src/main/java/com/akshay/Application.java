@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -23,7 +24,7 @@ public class Application implements CommandLineRunner {
     @Value("${secured.folder.path}")
     private String directory;
 
-    private static ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private static ExecutorService monitoringExecutorService = Executors.newSingleThreadExecutor();
 
     public static void main(String... args) {
         SpringApplication application = new SpringApplication(Application.class);
@@ -32,41 +33,13 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        logger.info("Dire : " + directory);
-
-        monitoringService.monitor(directory);
-
+        logger.info("Directory : " + directory);
+        monitoringExecutorService.submit(() -> {
+            while (true) {
+                TimeUnit.MINUTES.sleep(5);
+                monitoringService.monitor(directory);
+            }
+        });
 
     }
-
-//    @Override
-//    public void init(DaemonContext daemonContext) throws DaemonInitException, Exception {
-//        logger.debug("Application initialized with arguments {}.", daemonContext.getArguments());
-//    }
-//
-//    @Override
-//    public void start() throws Exception {
-//        logger.info("Starting up daemon.");
-//        this.executorService.execute(new Runnable() {
-//            CountDownLatch latch = new CountDownLatch(1);
-//            public void run() {
-//                try {
-//                    latch.await();
-//                } catch (InterruptedException e) {
-//                    logger.debug("Thread interrupted, probably means we're shutting down now.");
-//                }
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public void stop() throws Exception {
-//        logger.info("Stopping Application.");
-//        this.executorService.shutdown();
-//    }
-//
-//    @Override
-//    public void destroy() {
-//        logger.info("Destroying Application.");
-//    }
 }
