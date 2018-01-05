@@ -29,9 +29,9 @@ public class ArchivalService {
 
 
     public List<File> archive(String directory) {
-        logger.info("inside archival");
+        logger.debug("inside archival");
         List<File> archivedFiles = new ArrayList<>();
-        logger.info("inside archival size :"+ fileUtility.getFolderSizeInMBs(directory)+ " max:"+maxInMB);
+        logger.debug("inside archival size :"+ fileUtility.getFolderSizeInMBs(directory)+ " max:"+maxInMB);
 
         if (fileUtility.getFolderSizeInMBs(directory) >= maxInMB) {
 

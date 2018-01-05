@@ -32,9 +32,11 @@ public class MonitoringService {
     long value;
 
     public void monitor(String directory) {
-        logger.info("Monitoring service start");
+        logger.debug("Monitoring service start");
 
         Report report = new Report();
+
+        report.setDirectory(new File(directory));
 
         List<File> deletedFiles = securityService.securityCheck(directory);
         report.setDeletedFiles(deletedFiles);
@@ -47,8 +49,4 @@ public class MonitoringService {
 
     }
 
-
-    private void archivalcheck(List<File> filesToBeArchived, String directory) {
-        fileUtility.getFilesSortedByDate(directory);
-    }
 }

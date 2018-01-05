@@ -36,7 +36,7 @@ public class Application implements CommandLineRunner {
         logger.info("Directory : " + directory);
         monitoringExecutorService.submit(() -> {
             while (true) {
-                TimeUnit.MINUTES.sleep(5);
+                TimeUnit.SECONDS.sleep(5);
                 monitoringService.monitor(directory);
             }
         });

@@ -22,15 +22,14 @@ public class SecurityService {
     private FileUtility fileUtility;
 
     public SecurityService(@Value("${invalid.extensions}") String commaSepExtensions) {
-        logger.info("invalid extensions :"+ commaSepExtensions);
+        logger.debug("Invalid extensions :"+ commaSepExtensions);
         this.insecureExtensions = new HashSet<>(Arrays.asList(commaSepExtensions.split(",")));
     }
 
     public List<File> securityCheck(String directory) {
-        logger.info("Inside Security Service");
         List<File> deletedFiles = new ArrayList<>();
         List<File> files = fileUtility.getFiles(directory);
-        logger.info("List :"+files);
+        logger.debug("List of files :"+files);
         files.forEach(file -> {
             if (!isValidExtension(fileUtility.getExtension(file))) {
                 deletedFiles.add(file);
@@ -41,9 +40,9 @@ public class SecurityService {
     }
 
     private boolean isValidExtension(String extension) {
-        logger.info("Is Valid Ext :" + extension);
+        logger.debug("Is Valid Ext :" + extension);
         if (insecureExtensions == null || !insecureExtensions.contains(extension)) {
-            logger.info("Is Valid Ext 2");
+            logger.debug("Is Valid Ext 2");
             return true;
         }
         return false;
