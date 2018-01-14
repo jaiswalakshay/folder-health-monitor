@@ -1,11 +1,12 @@
 package com.akshay;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 public class SumProblem {
 
@@ -41,12 +42,41 @@ public class SumProblem {
         logger.info("No subarray with given sum exists");
     }
 
-    public static void main(String... arg) {
-        int arr[] = {10, 2, -2, -20, 10};
-        int n = arr.length;
-        int sum = -10;
-        logger.info("Array :" + Arrays.toString(arr) + " n :" + n);
-        subArraySum(arr, n, sum);
+//    public static void main(String... arg) {
+//        int arr[] = {10, 2, -2, -20, 10};
+//        int n = arr.length;
+//        int sum = -10;
+//        logger.info("Array :" + Arrays.toString(arr) + " n :" + n);
+//        subArraySum(arr, n, sum);
+//
+//    }
 
-    }
+        public static void main( String  [] args ) {
+
+            Collection<String> listOne = Arrays.asList("milan", "iga",
+                    "dingo", "iga",
+                    "elpha", "iga",
+                    "hafil", "iga",
+                    "meat", "iga",
+                    "neeta.peeta", "iga");
+
+            Collection<String> listTwo = Arrays.asList("hafil",
+                    "iga",
+                    "binga",
+                    "mike",
+                    "dingo", "dingo", "dingo");
+
+            Collection<String> similar = new HashSet<String>(listOne);
+
+            similar.retainAll(listTwo);
+            System.out.println(similar);
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                mapper.readValue("dw", new TypeReference<List<String>>(){});
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
 }

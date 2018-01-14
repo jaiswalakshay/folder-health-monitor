@@ -43,7 +43,7 @@ public class ArchivalService {
     private void doArchival(String directory, List<File> archivedFiles) {
         String fileName;
         List<File> files = fileUtility.getFilesSortedByDate(directory);
-        while (fileUtility.getFolderSizeInMBs(directory) >= maxInMB && files.size() > 0) {
+        while (fileUtility.getFolderSizeInMBs(directory) >= maxInMB && files.listIterator().hasNext()) {
             fileName = files.get(0).getName();
             File destFile = new File(archiveFolder +"/" +fileName);
             try {

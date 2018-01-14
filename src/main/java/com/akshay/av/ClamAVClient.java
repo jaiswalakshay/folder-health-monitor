@@ -15,7 +15,7 @@ public class ClamAVClient implements AVClient {
     private static final String FOUND = "FOUND";
     private static final String CLAMDSCAN_COMMAND = "clamdscan ";
     private static final String UTF_8 = "UTF-8";
-    private Process scanProcess;
+
 
 
     /**
@@ -26,9 +26,10 @@ public class ClamAVClient implements AVClient {
     public AVScanResult doAVScan(String path) throws IOException {
         AVScanResult scanResult = new AVScanResult();
         String cmdString = CLAMDSCAN_COMMAND + path;
+        Process scanProcess;
         scanProcess = Runtime.getRuntime().exec(cmdString);
-        setOutput(scanResult);
-        setErrorDetails(scanResult);
+        setOutput(scanResult,scanProcess);
+        setErrorDetails(scanResult,scanProcess);
         return scanResult;
     }
 
@@ -38,7 +39,7 @@ public class ClamAVClient implements AVClient {
      *
      * @throws IOException
      */
-    private void setOutput(AVScanResult scanResult) throws IOException {
+    private void setOutput(AVScanResult scanResult, Process scanProcess) throws IOException {
         InputStream inputstream = scanProcess.getInputStream();
         StringWriter writer = new StringWriter();
         IOUtils.copy(inputstream, writer, UTF_8);
@@ -57,7 +58,7 @@ public class ClamAVClient implements AVClient {
      *
      * @throws IOException
      */
-    private void setErrorDetails(AVScanResult scanResult) throws IOException {
+    private void setErrorDetails(AVScanResult scanResult,Process scanProcess) throws IOException {
         InputStream errorstream = scanProcess.getErrorStream();
         StringWriter errorwriter = new StringWriter();
         IOUtils.copy(errorstream, errorwriter, UTF_8);
